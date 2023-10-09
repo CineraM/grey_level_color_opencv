@@ -9,6 +9,11 @@ BIN_DIR=bin/
 
 EXEC = iptool
 
+# opencv library for FSprime server
+OPENCV = `PKG_CONFIG_PATH=../lib pkg-config --cflags --libs opencv4`
+# opencv library for local
+#OPENCV = `pkg-config --cflags --libs opencv`
+
 
 all: $(EXEC)
 
@@ -18,7 +23,7 @@ iptools:
 clean:
 	$(RM) $(BIN_DIR)$(EXEC); make all
 
-DO_EXEC = g++ -o $(BIN_DIR)$@ $@.cpp -L ../lib -l iptools
+DO_EXEC = g++ -std=c++11 $@.cpp $(OPENCV) -o $(BIN_DIR)$@ -L ../lib -l iptools
 
 #------ now compile
 $(EXEC):   		iptools

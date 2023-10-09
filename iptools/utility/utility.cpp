@@ -15,21 +15,6 @@ int utility::checkValue(int value)
 	return value;
 }
 
-// test fnc
-void utility::copyimg(image &src, image &tgt)
-{
-	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
-	for (int i=0; i<src.getNumberOfRows(); i++)
-	{
-		for (int j=0; j<src.getNumberOfColumns(); j++)
-		{
-			for(int channel = 0; channel<3; channel++)
-				tgt.setPixel(i, j, channel, src.getPixel(i, j, channel));
-		}
-	}
-}
-
-
 bool check_roi(int i, int j, int roi_i, int roi_j, int roi_i_size, int roi_j_size)
 {
 	if(i >= roi_i && i <= roi_i+roi_i_size-1)
@@ -301,4 +286,18 @@ void utility::addColorBrightnessROI(WRAPPER_PARAMS)
 {
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
 	addColorBrightness(temp1, tgt, fnc_input);
+}
+
+// Project 2 functions
+void utility::histogramStretching(image &src, image &tgt, int A, int B)
+{
+	vector<int> histogram(255, 0);
+	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
+
+	for (int i=0; i<src.getNumberOfRows(); i++)
+		for (int j=0; j<src.getNumberOfColumns(); j++)
+			histogram[src.getPixel(i, j)]++;
+
+	
+		
 }

@@ -1,0 +1,11 @@
+id: cinera
+pass: Nomeacuerdo123
+
+
+ssh:
+cinera@fsprime.cse.usf.edu
+
+filezilla server:
+sftp://fsprime.cse.usf.edu
+
+22 or 23

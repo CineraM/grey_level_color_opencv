@@ -5,6 +5,7 @@
 #include <sstream>
 #include <math.h>
 #include <vector>
+// #include <opencv2/opencv.hpp>
 
 #define WRAPPER_PARAMS  image &src, image &tgt, int fnc_input, int roi_i, int roi_j, int roi_i_size, int roi_j_size
 
@@ -43,9 +44,9 @@ class utility
 		static void rotateROI(WRAPPER_PARAMS);
 		static void addColorROI(WRAPPER_PARAMS);
 		static void addColorBrightnessROI(WRAPPER_PARAMS);
-
-		static void copyimg(image &src, image &tgt);
-
+		
+		// Project 2 functions
+		static void histogramStretching(image &src, image &tgt, int A, int B);
 };
 
 #endif

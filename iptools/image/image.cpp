@@ -183,19 +183,11 @@ bool image::save (const char* file)
 	}
 
 	if (strstr(file, ".ppm") != NULL) 
-	{	/* PPM Color Image */
+	{	/* PPM Color File*/
 		flag = 0;
 	}
 
-	else if (strstr(file, ".pgm") != NULL)
-	{	/* PGM Gray-level Image */ 
-		flag = 1;
-	}
-	else
-	{
-		fprintf(stderr, "\nIncorrect File Type\n");
-		return false;
-	}
+	else flag = 1;
 
 	if (flag)
 	{
@@ -244,8 +236,8 @@ bool image::save (char* file)
 
 	return true;
 }
-	/*-------------------------------------------------------------------*/
 
+/*-------------------------------------------------------------------*/
 bool image::read (char * filename) 
 {
 	fstream pgm_file;
@@ -258,20 +250,10 @@ bool image::read (char * filename)
 		exit(1);
 	}
 
-	if (strstr(filename, ".ppm") != NULL) 
-	{	/* PPM Color Image */
+	if (strstr(filename, ".ppm") != NULL) {/* PPM Color File*/
 		flag = 0;
 	}
-
-	else if (strstr(filename, ".pgm") != NULL)
-	{	/* PGM Gray-level Image */ 
-		flag = 1;
-	}
-	else
-	{
-		fprintf(stderr, "\nIncorrect File Type\n");
-		return false;
-	}
+	else flag = 1;
 
 	pgm_file.open(filename, std::ios_base::in | std::ios_base::binary);
 	if (!pgm_file.is_open()) {
@@ -313,7 +295,7 @@ bool image::read (char * filename)
 	getline(pgm_file,line);
 	
 	if (flag)
-	{	/* Gray-level Image */
+	{
 		char * buffer = new char [row*col];
 		pgm_file.read(buffer, row*col);
 
@@ -330,7 +312,7 @@ bool image::read (char * filename)
 
 	}
 	else 
-	{	/* Color Image */
+	{	
 		char * buffer = new char [row*col*3];
 		pgm_file.read(buffer, row*col*3);
 

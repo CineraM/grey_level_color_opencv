@@ -1,22 +1,3 @@
-/************************************************************
- *															*
- * This sample project include three functions:				*
- * 1. Add intensity for gray-level image.					*
- *    Input: source image, output image name, value			*
- *															*
- * 2. Image thresholding: pixels will become black if the	*
- *    intensity is below the threshold, and white if above	*
- *    or equal the threhold.								*
- *    Input: source image, output image name, threshold		*
- *															*
- * 3. Image scaling: reduction/expansion of 2 for 			*
- *    the width and length. This project uses averaging 	*
- *    technique for reduction and pixel replication			*
- *    technique for expansion.								*
- *    Input: source image, output image name, scale factor	*
- *															*
- ************************************************************/
-
 #include "../iptools/core.h"
 #include <string.h>
 #include <vector>
@@ -24,7 +5,11 @@
 using namespace std;
 
 // :^) Please let us use python, trying to modify this code base is hell! 
-#define ROI_INPUTS	pch = strtok(NULL, " ");int roi_i = atoi(pch); pch = strtok(NULL, " ");int roi_j = atoi(pch);pch = strtok(NULL, " ");int roi_i_size = atoi(pch);pch = strtok(NULL, " ");int roi_j_size = atoi(pch);pch = strtok(NULL, " ");
+#define ROI_INPUTS	pch = strtok(NULL, " ");\
+		int roi_i = atoi(pch); pch = strtok(NULL, " ");\
+		int roi_j = atoi(pch);pch = strtok(NULL, " ");\
+		int roi_i_size = atoi(pch);pch = strtok(NULL, " ");\
+		int roi_j_size = atoi(pch);pch = strtok(NULL, " ");
 #define XD pch = strtok(NULL, " ");	// :^))))))))
 #define MAXLEN 256
 
