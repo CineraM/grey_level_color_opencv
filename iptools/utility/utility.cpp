@@ -291,13 +291,48 @@ void utility::addColorBrightnessROI(WRAPPER_PARAMS)
 // Project 2 functions
 void utility::histogramStretching(image &src, image &tgt, int A, int B)
 {
-	vector<int> histogram(255, 0);
-	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
+	int min_pixel = 255;
+	int max_pixel = 0;
 
 	for (int i=0; i<src.getNumberOfRows(); i++)
+	{
 		for (int j=0; j<src.getNumberOfColumns(); j++)
-			histogram[src.getPixel(i, j)]++;
+		{
+			int pixel_val = src.getPixel(i, j);
+			if(pixel_val > max_pixel) max_pixel = pixel_val;
+			if(pixel_val < min_pixel) min_pixel = pixel_val;
+		}
+	}
+			
+	int C = min_pixel*1.05;
+	int D = max_pixel*0.95;
 
+	unordered_map<int, int> new_pixel_vals;
 	
-		
+	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
+	for (int i=0; i<src.getNumberOfRows(); i++)
+	{
+		for (int j=0; j<src.getNumberOfColumns(); j++)
+		{
+			int old_val = src.getPixel(i, j);
+			if(new_pixel_vals.find(old_val) == new_pixel_vals.end())
+			{
+				double new_val = (old_val-C) * (B-A) / (D-C) + A;
+				// double new_val = ((old_val - C) / (D - C)) * (B - A) + A; 
+				new_pixel_vals[old_val] = checkValue(new_val);
+				tgt.setPixel(i, j, new_pixel_vals[old_val]);	
+			}
+			else
+				tgt.setPixel(i, j, new_pixel_vals[old_val]);
+		}
+	}
+
+}
+
+
+void utility::histogramStretchingROI(image &src, image &tgt, int A, int B, 
+	int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	histogramStretching(temp1, tgt, A, B);
 }

@@ -11,6 +11,7 @@ using namespace std;
 		int roi_i_size = atoi(pch);pch = strtok(NULL, " ");\
 		int roi_j_size = atoi(pch);pch = strtok(NULL, " ");
 #define XD pch = strtok(NULL, " ");	// :^))))))))
+#define ROI_FNC_INPUTS temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size
 #define MAXLEN 256
 
 
@@ -75,6 +76,15 @@ int main (int argc, char** argv)
 			flag = true;
 			utility::addColorBrightness(src, tgt, atoi(pch));
 		}
+		else if (strcmp(pch,"stretch")==0)
+		{
+			XD
+			int A = atoi(pch);
+			XD
+			int B = atoi(pch);
+			flag = true;
+			utility::histogramStretching(src, tgt, A, B);
+		}
 
 		if(flag)
 		{
@@ -90,63 +100,71 @@ int main (int argc, char** argv)
 			if (strcmp(pch,"binarize")==0)
 			{
 				XD
-				utility::binarizeWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::binarizeWrapper(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"add")==0)
 			{
 				XD
-				utility::addGreyWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addGreyWrapper(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"scale")==0)
 			{
 				XD
-				utility::scaleWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::scaleWrapper(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"rotate")==0)
 			{
 				XD
-				utility::rotateWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::rotateWrapper(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"addColor")==0)
 			{	
 				XD
-				utility::addColorWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addColorWrapper(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"addBrightness")==0)
 			{	
 				XD
-				utility::addColorBrightnessWrapper(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addColorBrightnessWrapper(ROI_FNC_INPUTS);
 			}
 			// Just ROI Fncs
 			else if (strcmp(pch,"binarizeROI")==0)
 			{
 				XD
-				utility::binarizeROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::binarizeROI(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"addROI")==0)
 			{
 				XD
-				utility::addGreyROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addGreyROI(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"scaleROI")==0)
 			{
 				XD
-				utility::scaleROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::scaleROI(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"rotateROI")==0)
 			{
 				XD
-				utility::rotateROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::rotateROI(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"addColorROI")==0)
 			{	
 				XD
-				utility::addColorROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addColorROI(ROI_FNC_INPUTS);
 			}
 			else if (strcmp(pch,"addBrightnessROI")==0)
 			{	
 				XD
-				utility::addColorBrightnessROI(temp, tgt, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+				utility::addColorBrightnessROI(ROI_FNC_INPUTS);
+			}
+			else if (strcmp(pch,"stretchROI")==0)
+			{
+				XD
+				int A = atoi(pch);
+				XD
+				int B = atoi(pch);
+				utility::histogramStretchingROI(temp, tgt, A, B, roi_i, roi_j, roi_i_size, roi_j_size);
 			}
 
 			temp.copyImage(tgt);
@@ -157,3 +175,7 @@ int main (int argc, char** argv)
 	fclose(fp);
 	return 0;
 }
+// 3.
+// open CV
+// HSI --> HSV
+// Follow the right steps, convert to grey levels
