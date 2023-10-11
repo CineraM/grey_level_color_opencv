@@ -60,6 +60,11 @@ class utility
 			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 
 		static void equalizeColor(string src, string tgt, int RGB_VAL);
+
+		static void equalizeT(image &src, string srcfile, image &tgt, int threshold);
+		
+
+
 };
 
 #endif

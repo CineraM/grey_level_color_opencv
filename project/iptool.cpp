@@ -101,6 +101,13 @@ int main (int argc, char** argv)
 			not_opencv = false;
 			continue;
 		}
+		else if(strcmp(pch,"equalizeT")==0)
+		{
+			XD
+			utility::equalizeT(src, srcfile, tgt, atoi(pch));
+			not_opencv = false;
+			flag = true;
+		}
 
 
 		if(flag)

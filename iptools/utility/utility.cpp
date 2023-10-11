@@ -383,3 +383,55 @@ void utility::equalizeColor(string src, string tgt, int RGB_VAL)
 	cvtColor(equalized_image, equalized_image, COLOR_RGB2BGR);
 	imwrite(tgt, equalized_image);
 }
+
+
+// extra credit question
+void utility::equalizeT(image &src, string srcfile, image &tgt, int threshold)
+{	
+	unordered_map<string, bool> t_mapping;
+
+	for (int i=0; i<src.getNumberOfRows(); i++)
+	{
+		for (int j=0; j<src.getNumberOfColumns(); j++)
+		{
+			std::string key = std::to_string(i) + std::to_string(j);
+			if (src.getPixel(i,j) < threshold)
+				t_mapping[key] = true;
+			else
+				t_mapping[key] = false;
+		}
+	}
+
+	string temp_file = "temp_file.pgm";
+	Mat src_image = imread(srcfile, IMREAD_GRAYSCALE);
+    // Apply histogram equalization
+    Mat equalized_image;
+    equalizeHist(src_image, equalized_image);
+    // save img to new file
+    imwrite(temp_file, equalized_image);
+
+	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
+	image eq_temp_image;
+
+	char* temp_file_dir = new char[temp_file.length() + 1];  // +1 for null-terminator
+	strcpy(temp_file_dir, temp_file.c_str());
+
+	eq_temp_image.read(temp_file_dir);
+
+
+	for (int i=0; i<src.getNumberOfRows(); i++)
+	{
+		for (int j=0; j<src.getNumberOfColumns(); j++)
+		{
+			std::string key = std::to_string(i) + std::to_string(j);
+			bool t_value = t_mapping[key];
+
+			if (t_value)
+				tgt.setPixel(i, j, eq_temp_image.getPixel(i, j));
+			else
+				tgt.setPixel(i, j, src.getPixel(i, j));
+		}
+	}
+
+	std::remove(temp_file.c_str());
+}

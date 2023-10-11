@@ -1,2 +1,2 @@
-portraitColor.ppm test.ppm equalizeColor 3
-portraitColor.ppm test2.ppm equalizeColor 0
+landscape2.pgm test1.pgm equalizeT 15
+landscape2.pgm test2.pgm equalizeGrey 

@@ -19,3 +19,6 @@ Part 2 parameters:
 
 
 Part 3 parameters:
+
+portraitColor.ppm test.ppm equalizeColor 3
+portraitColor.ppm test2.ppm equalizeColor 0
