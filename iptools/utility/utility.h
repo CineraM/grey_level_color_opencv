@@ -50,7 +50,7 @@ class utility
 		
 		// Project 2 functions
 		static void histogramStretching(image &src, image &tgt, int A, int B);
-		
+
 		static void histogramStretchingROI(image &src, image &tgt, int A, int B, 
 			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 
@@ -58,6 +58,8 @@ class utility
 
 		static void equalizeGreyROI(image &src, string tgtfile,
 			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+
+		static void equalizeColor(string src, string tgt, int RGB_VAL);
 };
 
 #endif

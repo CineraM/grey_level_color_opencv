@@ -343,7 +343,6 @@ void utility::histogramStretchingROI(image &src, image &tgt, int A, int B,
 void utility::equalizeGrey(string src, string tgt)
 {
 	Mat src_image = imread(src, IMREAD_GRAYSCALE);
-    // if (src_image.empty()) return;
     // Apply histogram equalization
     Mat equalized_image;
     equalizeHist(src_image, equalized_image);
@@ -359,4 +358,28 @@ void utility::equalizeGreyROI(image &src, string tgtfile
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
 	temp1.save(temp_file.c_str());
 	equalizeGrey(temp_file, tgtfile);
+	std::remove(temp_file.c_str());
+}
+
+// enum RGB {R, G, B, ALL};
+
+void utility::equalizeColor(string src, string tgt, int RGB_VAL)
+{
+	vector<Mat> channels;
+	Mat src_image = imread(src, IMREAD_COLOR);
+    split(src_image, channels);
+
+	if(RGB_VAL == 3)
+	{
+		for (int i = 0; i < 3; ++i)
+			equalizeHist(channels[i], channels[i]);
+	}
+	else
+		equalizeHist(channels[RGB_VAL], channels[RGB_VAL]);
+
+	Mat equalized_image;
+    merge(channels, equalized_image);
+	// color conversion to save img
+	cvtColor(equalized_image, equalized_image, COLOR_RGB2BGR);
+	imwrite(tgt, equalized_image);
 }

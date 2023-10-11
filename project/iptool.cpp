@@ -87,11 +87,19 @@ int main (int argc, char** argv)
 			flag = true;
 			utility::histogramStretching(src, tgt, A, B);
 		}
-
+		//project 2 fncs
 		else if(strcmp(pch,"equalizeGrey")==0)
 		{
 			utility::equalizeGrey(srcfile, outfile);
 			not_opencv = false;
+			continue;
+		}
+		else if(strcmp(pch,"equalizeColor")==0)
+		{
+			XD
+			utility::equalizeColor(srcfile, outfile, atoi(pch));
+			not_opencv = false;
+			continue;
 		}
 
 
