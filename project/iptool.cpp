@@ -1,6 +1,5 @@
 #include "../iptools/core.h"
 #include <string.h>
-#include <vector>
 
 using namespace std;
 
@@ -21,6 +20,7 @@ int main (int argc, char** argv)
 	
 	FILE *fp;
 	char str[MAXLEN];
+	char srcfile[MAXLEN];
 	char outfile[MAXLEN];
 	char *pch;
 	if ((fp = fopen(argv[1],"r")) == NULL) {
@@ -30,7 +30,9 @@ int main (int argc, char** argv)
 
 	while(fgets(str,MAXLEN,fp) != NULL) 
 	{
+		bool not_opencv = true;
 		pch = strtok(str, " ");
+		strcpy(srcfile, pch);
 		src.read(pch);
 		temp.copyImage(src);
 		
@@ -85,6 +87,13 @@ int main (int argc, char** argv)
 			flag = true;
 			utility::histogramStretching(src, tgt, A, B);
 		}
+
+		else if(strcmp(pch,"equalizeGrey")==0)
+		{
+			utility::equalizeGrey(srcfile, outfile);
+			not_opencv = false;
+		}
+
 
 		if(flag)
 		{
@@ -166,11 +175,16 @@ int main (int argc, char** argv)
 				int B = atoi(pch);
 				utility::histogramStretchingROI(temp, tgt, A, B, roi_i, roi_j, roi_i_size, roi_j_size);
 			}
+			else if (strcmp(pch,"equalizeGreyROI")==0)	// only call as last parameter
+			{
+				utility::equalizeGreyROI(temp, outfile, roi_i, roi_j, roi_i_size, roi_j_size);
+				not_opencv = false;
+			}
 
 			temp.copyImage(tgt);
 		}
 
-		tgt.save(outfile);
+		if(not_opencv) tgt.save(outfile);
 	}
 	fclose(fp);
 	return 0;

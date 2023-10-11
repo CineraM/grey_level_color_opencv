@@ -3,10 +3,12 @@
 
 #include "../image/image.h"
 #include <sstream>
+#include <string>
 #include <math.h>
 #include <vector>
 #include <unordered_map>
-// #include <opencv2/opencv.hpp>
+#include <cstdio>
+#include <opencv2/opencv.hpp>
 
 #define WRAPPER_PARAMS  image &src, image &tgt, int fnc_input, int roi_i, int roi_j, int roi_i_size, int roi_j_size
 
@@ -48,8 +50,14 @@ class utility
 		
 		// Project 2 functions
 		static void histogramStretching(image &src, image &tgt, int A, int B);
+		
 		static void histogramStretchingROI(image &src, image &tgt, int A, int B, 
-		int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+
+		static void equalizeGrey(string src, string tgt);
+
+		static void equalizeGreyROI(image &src, string tgtfile,
+			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 };
 
 #endif

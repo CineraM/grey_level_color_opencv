@@ -3,8 +3,9 @@
 #define MAXRGB 255
 #define MINRGB 0
 
+using namespace cv;
+using namespace std;
 image temp1, temp2;
-
 
 int utility::checkValue(int value)
 {
@@ -137,10 +138,11 @@ void utility::rotate(image &src, image &tgt, int angle)
 	int rows = src.getNumberOfRows();
 	int cols = src.getNumberOfColumns();
 
+
+	tgt.resize(rows, cols);
 	if(angle == 90 || angle == 270)
 		tgt.resize(cols, rows);
-	tgt.resize(rows, cols);
-
+		
 	for (int i=0; i<rows; i++)
 	{
 		for (int j=0; j<cols; j++)
@@ -161,7 +163,7 @@ void utility::rotate(image &src, image &tgt, int angle)
 				new_i = cols - 1 - j;
 				new_j = i;	
 			}
-
+			
 			for(int channel = 0; channel<3; channel++)
 				tgt.setPixel(new_i, new_j, channel, src.getPixel(i, j, channel));
 		}
@@ -335,4 +337,26 @@ void utility::histogramStretchingROI(image &src, image &tgt, int A, int B,
 {
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
 	histogramStretching(temp1, tgt, A, B);
+}
+
+
+void utility::equalizeGrey(string src, string tgt)
+{
+	Mat src_image = imread(src, IMREAD_GRAYSCALE);
+    // if (src_image.empty()) return;
+    // Apply histogram equalization
+    Mat equalized_image;
+    equalizeHist(src_image, equalized_image);
+    // save img to new file
+    imwrite(tgt, equalized_image);
+}
+
+
+void utility::equalizeGreyROI(image &src, string tgtfile
+	,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	string temp_file = "temp_file.pgm";
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(temp_file.c_str());
+	equalizeGrey(temp_file, tgtfile);
 }
