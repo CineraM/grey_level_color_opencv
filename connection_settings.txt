@@ -19,3 +19,6 @@ make clean;
 make;
 cd bin/;
 ./iptool parameters.txt;
+
+
+/home/c/cinera/Documents/grey_level_color_opencv/project/bin

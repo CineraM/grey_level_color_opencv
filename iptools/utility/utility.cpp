@@ -388,26 +388,38 @@ void utility::equalizeColor(string src, string tgt, int RGB_VAL)
 // extra credit question
 void utility::equalizeT(image &src, string srcfile, image &tgt, int threshold)
 {	
-	unordered_map<string, bool> t_mapping;
+	image t_image;
+	string temp_file = "temp_file.pgm";
+
+	t_image.resize(src.getNumberOfRows(), src.getNumberOfColumns());
+
+	std::vector<std::vector<bool>> t_mapping(src.getNumberOfRows(), 
+		std::vector<bool>(src.getNumberOfColumns(), false));
 
 	for (int i=0; i<src.getNumberOfRows(); i++)
 	{
 		for (int j=0; j<src.getNumberOfColumns(); j++)
 		{
-			std::string key = std::to_string(i) + std::to_string(j);
 			if (src.getPixel(i,j) < threshold)
-				t_mapping[key] = true;
+			{
+				t_mapping[i][j] = true;
+				t_image.setPixel(i, j, src.getPixel(i, j));
+			}
 			else
-				t_mapping[key] = false;
+			{
+				t_image.setPixel(i, j, threshold);
+			}
+				
 		}
 	}
-
-	string temp_file = "temp_file.pgm";
-	Mat src_image = imread(srcfile, IMREAD_GRAYSCALE);
-    // Apply histogram equalization
+	t_image.save("debug_threshold_pixel_selection.pgm");
+	t_image.save(temp_file.c_str());
+	
+	Mat src_image = imread(temp_file, IMREAD_GRAYSCALE);
     Mat equalized_image;
     equalizeHist(src_image, equalized_image);
-    // save img to new file
+
+    imwrite("debug_threshold_pixel_selection.pgm", equalized_image);
     imwrite(temp_file, equalized_image);
 
 	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());
@@ -418,15 +430,11 @@ void utility::equalizeT(image &src, string srcfile, image &tgt, int threshold)
 
 	eq_temp_image.read(temp_file_dir);
 
-
 	for (int i=0; i<src.getNumberOfRows(); i++)
 	{
 		for (int j=0; j<src.getNumberOfColumns(); j++)
 		{
-			std::string key = std::to_string(i) + std::to_string(j);
-			bool t_value = t_mapping[key];
-
-			if (t_value)
+			if (t_mapping[i][j])
 				tgt.setPixel(i, j, eq_temp_image.getPixel(i, j));
 			else
 				tgt.setPixel(i, j, src.getPixel(i, j));

@@ -15,6 +15,7 @@ vegeta.pgm 1_12_vegeta.pgm 1 50 10 400 350 rotateROI 90 0 0 212 224 equalizeGrey
 
 
 Part 2 parameters:
+landscape.pgm 2_1_landscape.pgm equalizeT 29 
 
 
 
