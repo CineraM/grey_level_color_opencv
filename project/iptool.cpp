@@ -90,8 +90,12 @@ int main (int argc, char** argv)
 		//project 2 fncs
 		else if(strcmp(pch,"equalizeGrey")==0)
 		{
-			utility::equalizeGrey(srcfile, outfile);
-			not_opencv = false;
+			utility::equalizeGrey(srcfile, tgt);
+		}
+		else if(strcmp(pch,"equalizeT")==0)
+		{
+			XD
+			utility::equalizeT(src, srcfile, tgt, atoi(pch));
 			continue;
 		}
 		else if(strcmp(pch,"equalizeColor")==0)
@@ -101,12 +105,12 @@ int main (int argc, char** argv)
 			not_opencv = false;
 			continue;
 		}
-		else if(strcmp(pch,"equalizeT")==0)
+		else if(strcmp(pch,"equalizeHSV")==0)
 		{
 			XD
-			utility::equalizeT(src, srcfile, tgt, atoi(pch));
+			utility::equalizeHSV(srcfile, outfile, atoi(pch));
 			not_opencv = false;
-			flag = true;
+			continue;
 		}
 
 
@@ -192,8 +196,7 @@ int main (int argc, char** argv)
 			}
 			else if (strcmp(pch,"equalizeGreyROI")==0)	// only call as last parameter
 			{
-				utility::equalizeGreyROI(temp, outfile, roi_i, roi_j, roi_i_size, roi_j_size);
-				not_opencv = false;
+				utility::equalizeGreyROI(temp, tgt, outfile, roi_i, roi_j, roi_i_size, roi_j_size);
 			}
 
 			temp.copyImage(tgt);

@@ -1,4 +1,6 @@
 #include "utility.h"
+#include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 #define MAXRGB 255
 #define MINRGB 0
@@ -6,6 +8,8 @@
 using namespace cv;
 using namespace std;
 image temp1, temp2;
+string TEMP_PGM = "temp.pgm";
+string TEMP_PPM = "temp.ppm";
 
 int utility::checkValue(int value)
 {
@@ -280,7 +284,6 @@ void utility::addColorROI(WRAPPER_PARAMS)
 {
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
 	addColor(temp1, tgt, fnc_input);
-
 }
 
 
@@ -340,30 +343,37 @@ void utility::histogramStretchingROI(image &src, image &tgt, int A, int B,
 }
 
 
-void utility::equalizeGrey(string src, string tgt)
+void save_to_tgt(string src, image &tgt)
+{
+	char* new_src = new char[src.length() + 1];  // +1 for null-terminator
+	strcpy(new_src, src.c_str());
+	tgt.read(new_src);
+}
+
+
+void utility::equalizeGrey(string src, image &tgt)
 {
 	Mat src_image = imread(src, IMREAD_GRAYSCALE);
     // Apply histogram equalization
     Mat equalized_image;
     equalizeHist(src_image, equalized_image);
     // save img to new file
-    imwrite(tgt, equalized_image);
+    imwrite(TEMP_PGM, equalized_image);
+	save_to_tgt(TEMP_PGM, tgt);
 }
 
 
-void utility::equalizeGreyROI(image &src, string tgtfile
+void utility::equalizeGreyROI(image &src, image &tgt, string tgtfile
 	,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
 {
-	string temp_file = "temp_file.pgm";
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
-	temp1.save(temp_file.c_str());
-	equalizeGrey(temp_file, tgtfile);
-	std::remove(temp_file.c_str());
+	temp1.save(TEMP_PGM.c_str());
+	equalizeGrey(TEMP_PGM, tgt);
+	std::remove(TEMP_PGM.c_str());
 }
 
-// enum RGB {R, G, B, ALL};
 
-void utility::equalizeColor(string src, string tgt, int RGB_VAL)
+void utility::equalizeColor(string src, string tgtfile, int RGB_VAL)
 {
 	vector<Mat> channels;
 	Mat src_image = imread(src, IMREAD_COLOR);
@@ -381,8 +391,35 @@ void utility::equalizeColor(string src, string tgt, int RGB_VAL)
     merge(channels, equalized_image);
 	// color conversion to save img
 	cvtColor(equalized_image, equalized_image, COLOR_RGB2BGR);
-	imwrite(tgt, equalized_image);
+	imwrite(tgtfile, equalized_image);
 }
+
+
+
+void utility::equalizeHSV(string src, string tgtfile, int HSV_VAL)
+{
+    Mat input_image = imread(src, IMREAD_COLOR);
+
+    Mat hsv_image;
+    cvtColor(input_image, hsv_image, COLOR_BGR2HSV);
+
+    std::vector<Mat> channels;
+    split(hsv_image, channels);
+
+	if(HSV_VAL == 3)
+	{
+		for (int i = 0; i < 3; ++i)
+			equalizeHist(channels[i], channels[i]);
+	}
+	else
+		equalizeHist(channels[HSV_VAL], channels[HSV_VAL]);
+
+    merge(channels, hsv_image);
+    Mat equalized_bgr;
+    cvtColor(hsv_image, equalized_bgr, COLOR_HSV2BGR);
+
+	imwrite(tgtfile, equalized_bgr);
+} 
 
 
 // extra credit question

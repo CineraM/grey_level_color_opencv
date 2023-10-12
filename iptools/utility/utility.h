@@ -8,7 +8,6 @@
 #include <vector>
 #include <unordered_map>
 #include <cstdio>
-#include <opencv2/opencv.hpp>
 
 #define WRAPPER_PARAMS  image &src, image &tgt, int fnc_input, int roi_i, int roi_j, int roi_i_size, int roi_j_size
 
@@ -54,14 +53,19 @@ class utility
 		static void histogramStretchingROI(image &src, image &tgt, int A, int B, 
 			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 
-		static void equalizeGrey(string src, string tgt);
 
-		static void equalizeGreyROI(image &src, string tgtfile,
-			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+		static void equalizeGrey(string src, image &tgt);
+		static void equalizeGreyROI(image &src, image &tgt, string tgtfile
+			,int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 
-		static void equalizeColor(string src, string tgt, int RGB_VAL);
-
+		// EC
 		static void equalizeT(image &src, string srcfile, image &tgt, int threshold);
+
+		static void equalizeColor(string src, string tgtfile, int RGB_VAL);
+
+		static void equalizeHSV(string src, string tgtfile, int HSV_VAL);
+
+
 		
 
 

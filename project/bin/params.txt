@@ -21,5 +21,7 @@ landscape.pgm 2_1_landscape.pgm equalizeT 29
 
 Part 3 parameters:
 
-portraitColor.ppm test.ppm equalizeColor 3
-portraitColor.ppm test2.ppm equalizeColor 0
+vegetaColor.ppm vegetaColor_0.ppm equalizeHSV 0
+vegetaColor.ppm vegetaColor_1.ppm equalizeHSV 1
+vegetaColor.ppm vegetaColor_2.ppm equalizeHSV 2
+vegetaColor.ppm vegetaColor_3.ppm equalizeHSV 3

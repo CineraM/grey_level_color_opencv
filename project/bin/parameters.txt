@@ -1,1 +1,4 @@
-landscape.pgm 2_1_landscape.pgm equalizeT 29 
+portrait.pgm 1_1_portrait.pgm 2 0 0 500 500 rotateROI 90 0 0 300 300 stretchROI 0 255 
+portrait.pgm 1_2_portrait.pgm 2 0 0 500 500 rotateROI 90 0 0 300 300 equalizeGreyROI 
+portrait.pgm 1_3_portrait.pgm 2 30 20 300 410 rotateROI 180 0 0 300 300 stretchROI 0 120 
+portrait.pgm 1_4_portrait.pgm 1 10 10 400 350 rotateROI 270 0 0 212 264 equalizeGreyROI 
