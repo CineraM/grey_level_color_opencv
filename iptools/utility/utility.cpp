@@ -427,7 +427,6 @@ void utility::equalizeColorWrapper(image &src, image &tgt, string tgtfile,
 }
 
 
-
 void utility::equalizeHSV(string src, image &tgt, int HSV_VAL)
 {
     Mat input_image = imread(src, IMREAD_COLOR);
@@ -509,7 +508,7 @@ void utility::equalizeT(image &src, string srcfile, image &tgt, int threshold)
     Mat equalized_image;
     equalizeHist(src_image, equalized_image);
 
-    imwrite("debug_threshold_pixel_selection.pgm", equalized_image);
+    imwrite("debug_threshold_pixel_selection2.pgm", equalized_image);
     imwrite(temp_file, equalized_image);
 
 	tgt.resize(src.getNumberOfRows(), src.getNumberOfColumns());

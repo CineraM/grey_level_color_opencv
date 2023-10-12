@@ -107,8 +107,8 @@ int main (int argc, char** argv)
 		else if(strcmp(pch,"equalizeT")==0)
 		{
 			XD
+			flag = true;
 			utility::equalizeT(src, srcfile, tgt, atoi(pch));
-			continue;
 		}
 
 
