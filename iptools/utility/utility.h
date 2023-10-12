@@ -55,20 +55,25 @@ class utility
 
 
 		static void equalizeGrey(string src, image &tgt);
-		static void equalizeGreyROI(image &src, image &tgt, string tgtfile
-			,int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+		static void equalizeGreyROI(image &src, image &tgt, string tgtfile,
+			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+		static void equalizeGreyWrapper(image &src, image &tgt, string tgtfile,
+			int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+
+		static void equalizeColor(string src, image &tgt, int RGB_VAL);
+		static void equalizeColorROI(image &src, image &tgt, string tgtfile,
+			int RGB_VAL, int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+		static void equalizeColorWrapper(image &src, image &tgt, string tgtfile,
+			int RGB_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+
+		static void equalizeHSV(string src, image &tgt, int HSV_VAL);
+		static void equalizeHSVROI(image &src, image &tgt, string tgtfile,
+			int HSV_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size);
+		static void equalizeHSVWrapper(image &src, image &tgt, string tgtfile,
+			int HSV_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size);
 
 		// EC
 		static void equalizeT(image &src, string srcfile, image &tgt, int threshold);
-
-		static void equalizeColor(string src, string tgtfile, int RGB_VAL);
-
-		static void equalizeHSV(string src, string tgtfile, int HSV_VAL);
-
-
-		
-
-
 };
 
 #endif

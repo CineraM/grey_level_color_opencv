@@ -30,7 +30,6 @@ int main (int argc, char** argv)
 
 	while(fgets(str,MAXLEN,fp) != NULL) 
 	{
-		bool not_opencv = true;
 		pch = strtok(str, " ");
 		strcpy(srcfile, pch);
 		src.read(pch);
@@ -90,26 +89,25 @@ int main (int argc, char** argv)
 		//project 2 fncs
 		else if(strcmp(pch,"equalizeGrey")==0)
 		{
+			flag = true;
 			utility::equalizeGrey(srcfile, tgt);
+		}
+		else if(strcmp(pch,"equalizeColor")==0)
+		{
+			XD
+			flag = true;
+			utility::equalizeColor(srcfile, tgt, atoi(pch));
+		}
+		else if(strcmp(pch,"equalizeHSV")==0)
+		{
+			XD
+			flag = true;
+			utility::equalizeHSV(srcfile, tgt, atoi(pch));
 		}
 		else if(strcmp(pch,"equalizeT")==0)
 		{
 			XD
 			utility::equalizeT(src, srcfile, tgt, atoi(pch));
-			continue;
-		}
-		else if(strcmp(pch,"equalizeColor")==0)
-		{
-			XD
-			utility::equalizeColor(srcfile, outfile, atoi(pch));
-			not_opencv = false;
-			continue;
-		}
-		else if(strcmp(pch,"equalizeHSV")==0)
-		{
-			XD
-			utility::equalizeHSV(srcfile, outfile, atoi(pch));
-			not_opencv = false;
 			continue;
 		}
 
@@ -194,15 +192,40 @@ int main (int argc, char** argv)
 				int B = atoi(pch);
 				utility::histogramStretchingROI(temp, tgt, A, B, roi_i, roi_j, roi_i_size, roi_j_size);
 			}
+			else if (strcmp(pch,"equalizeGrey")==0)	// only call as last parameter
+			{
+				utility::equalizeGreyWrapper(temp, tgt, outfile, roi_i, roi_j, roi_i_size, roi_j_size);
+			}
 			else if (strcmp(pch,"equalizeGreyROI")==0)	// only call as last parameter
 			{
 				utility::equalizeGreyROI(temp, tgt, outfile, roi_i, roi_j, roi_i_size, roi_j_size);
 			}
+			else if (strcmp(pch,"equalizeColor")==0)	// only call as last parameter
+			{
+				XD
+				utility::equalizeColorWrapper(temp, tgt, outfile, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+			}
+			else if (strcmp(pch,"equalizeColorROI")==0)	// only call as last parameter
+			{
+				XD
+				utility::equalizeColorROI(temp, tgt, outfile, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+			}
+
+			else if (strcmp(pch,"equalizeHSV")==0)	// only call as last parameter
+			{
+				XD
+				utility::equalizeHSVWrapper(temp, tgt, outfile, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+			}
+			else if (strcmp(pch,"equalizeHSVROI")==0)	// only call as last parameter
+			{
+				XD
+				utility::equalizeHSVROI(temp, tgt, outfile, atoi(pch), roi_i, roi_j, roi_i_size, roi_j_size);
+			}
 
 			temp.copyImage(tgt);
 		}
-
-		if(not_opencv) tgt.save(outfile);
+		
+		tgt.save(outfile);
 	}
 	fclose(fp);
 	return 0;

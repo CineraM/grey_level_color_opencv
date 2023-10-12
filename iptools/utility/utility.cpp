@@ -360,11 +360,12 @@ void utility::equalizeGrey(string src, image &tgt)
     // save img to new file
     imwrite(TEMP_PGM, equalized_image);
 	save_to_tgt(TEMP_PGM, tgt);
+	std::remove(TEMP_PGM.c_str());
 }
 
 
-void utility::equalizeGreyROI(image &src, image &tgt, string tgtfile
-	,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+void utility::equalizeGreyROI(image &src, image &tgt, string tgtfile,
+	int roi_i, int roi_j, int roi_i_size, int roi_j_size)
 {
 	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
 	temp1.save(TEMP_PGM.c_str());
@@ -372,8 +373,18 @@ void utility::equalizeGreyROI(image &src, image &tgt, string tgtfile
 	std::remove(TEMP_PGM.c_str());
 }
 
+void utility::equalizeGreyWrapper(image &src, image &tgt, string tgtfile,
+	int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(TEMP_PGM.c_str());
+	equalizeGrey(TEMP_PGM, temp2);
+	std::remove(TEMP_PGM.c_str());
+	mergeRoi(src, temp2, tgt, roi_i, roi_j, roi_i_size, roi_j_size);
+}
 
-void utility::equalizeColor(string src, string tgtfile, int RGB_VAL)
+
+void utility::equalizeColor(string src, image &tgt, int RGB_VAL)
 {
 	vector<Mat> channels;
 	Mat src_image = imread(src, IMREAD_COLOR);
@@ -391,12 +402,33 @@ void utility::equalizeColor(string src, string tgtfile, int RGB_VAL)
     merge(channels, equalized_image);
 	// color conversion to save img
 	cvtColor(equalized_image, equalized_image, COLOR_RGB2BGR);
-	imwrite(tgtfile, equalized_image);
+	imwrite(TEMP_PPM, equalized_image);
+	save_to_tgt(TEMP_PPM, tgt);
+	std::remove(TEMP_PPM.c_str());
+}
+
+void utility::equalizeColorROI(image &src, image &tgt, string tgtfile,
+	int RGB_VAL, int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(TEMP_PPM.c_str());
+	equalizeColor(TEMP_PPM, tgt, RGB_VAL);
+	std::remove(TEMP_PPM.c_str());
+}
+
+void utility::equalizeColorWrapper(image &src, image &tgt, string tgtfile,
+	int RGB_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(TEMP_PPM.c_str());
+	equalizeColor(TEMP_PPM, temp2, RGB_VAL);
+	std::remove(TEMP_PPM.c_str());
+	mergeRoi(src, temp2, tgt, roi_i, roi_j, roi_i_size, roi_j_size);
 }
 
 
 
-void utility::equalizeHSV(string src, string tgtfile, int HSV_VAL)
+void utility::equalizeHSV(string src, image &tgt, int HSV_VAL)
 {
     Mat input_image = imread(src, IMREAD_COLOR);
 
@@ -418,8 +450,29 @@ void utility::equalizeHSV(string src, string tgtfile, int HSV_VAL)
     Mat equalized_bgr;
     cvtColor(hsv_image, equalized_bgr, COLOR_HSV2BGR);
 
-	imwrite(tgtfile, equalized_bgr);
-} 
+	imwrite(TEMP_PPM, equalized_bgr);
+	save_to_tgt(TEMP_PPM, tgt);
+	std::remove(TEMP_PPM.c_str());
+}
+
+void utility::equalizeHSVROI(image &src, image &tgt, string tgtfile,
+	int HSV_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(TEMP_PPM.c_str());
+	equalizeHSV(TEMP_PPM, tgt, HSV_VAL);
+	std::remove(TEMP_PPM.c_str());
+}
+
+void utility::equalizeHSVWrapper(image &src, image &tgt, string tgtfile,
+	int HSV_VAL ,int roi_i, int roi_j, int roi_i_size, int roi_j_size)
+{
+	roi(src, temp1, roi_i, roi_j, roi_i_size, roi_j_size);
+	temp1.save(TEMP_PPM.c_str());
+	equalizeHSV(TEMP_PPM, temp2, HSV_VAL);
+	std::remove(TEMP_PPM.c_str());
+	mergeRoi(src, temp2, tgt, roi_i, roi_j, roi_i_size, roi_j_size);
+}
 
 
 // extra credit question
