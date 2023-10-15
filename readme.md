@@ -1,4 +1,4 @@
-# HW 2 Grey Level and Color - Parameters
+# Grey Level and Color - Parameters
 
 
 ## How to compile
